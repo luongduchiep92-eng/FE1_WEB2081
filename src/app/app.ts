@@ -9,4 +9,11 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   title = 'my-app';
-}
+  fullName = "Lương Đức Hiệp";
+  age = 21;
+
+  sayHello() {
+    console.log('hello ');
+    alert('hello ' + this.fullName);
+  }
+};
