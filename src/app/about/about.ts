@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-about',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './about.html',
   styleUrl: './about.css',
 })
 export class About {
-  fullname = "Lương Đức Hiệp";
+  fullName = "Lương Đức Hiệp";
   age = 21;
   major = "Web Developer";
 
