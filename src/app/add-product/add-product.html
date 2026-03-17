@@ -1,20 +1,42 @@
 <h1>Thêm sản phẩm</h1>
 
 <form [formGroup]="addForm" (ngSubmit)="submitForm()">
-    <div>
-        <label for="">Tên sản phẩm</label>
-        <input type="text" formControlName="name">
-    </div>
 
-    <div>
-        <label for="">Giá sản phẩm</label>
-        <input type="number" formControlName="price">
-    </div>
-    
-    <div>
-        <label for="">Category</label>
-        <input type="text" formControlName="category">
-    </div>
+  <div>
+    <label>Tên sản phẩm</label>
+    <input type="text" formControlName="name">
 
-    <button type="submit">Thêm</button>
+    @if (f['name'].touched && f['name'].invalid) {
+      <div style="color:red">
+        @if (f['name'].errors?.['required']) {
+          <small>Tên sản phẩm là bắt buộc</small>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <label>Giá sản phẩm</label>
+    <input type="number" formControlName="price">
+
+    @if (f['price'].touched && f['price'].invalid) {
+      <div style="color:red">
+        @if (f['price'].errors?.['required']) {
+          <small>Giá là bắt buộc</small>
+        }
+        @if (f['price'].errors?.['min']) {
+          <small>Giá phải lớn hơn 0</small>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <label>Category</label>
+    <input type="text" formControlName="category">
+  </div>
+
+  <button type="submit" [disabled]="addForm.invalid">
+    Thêm
+  </button>
 </form>

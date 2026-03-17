@@ -1,20 +1,53 @@
 <h2>Đăng kí</h2>
 
 <form [formGroup]="addForm" (ngSubmit)="submitForm()">
-    <div>
-        <label for="">Tên</label>
-        <input type="text" formControlName="username">
-    </div>
 
-    <div>
-        <label for="">Email</label>
-        <input type="email" formControlName="email">
-    </div>
+  <div>
+    <label>Tên</label>
+    <input type="text" formControlName="username">
 
-    <div>
-        <label for="">Mật khẩu</label>
-        <input type="password" formControlName="password">
-    </div>
+    @if (f['username'].touched && f['username'].invalid) {
+      <div style="color:red">
+        @if (f['username'].errors?.['required']) {
+          <small>Username là bắt buộc</small>
+        }
+      </div>
+    }
+  </div>
 
-    <button type="submit">Đăng kí</button>
+  <div>
+    <label>Email</label>
+    <input type="email" formControlName="email">
+
+    @if (f['email'].touched && f['email'].invalid) {
+      <div style="color:red">
+        @if (f['email'].errors?.['required']) {
+          <small>Email là bắt buộc</small>
+        }
+        @if (f['email'].errors?.['email']) {
+          <small>Email không đúng định dạng</small>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <label>Mật khẩu</label>
+    <input type="password" formControlName="password">
+
+    @if (f['password'].touched && f['password'].invalid) {
+      <div style="color:red">
+        @if (f['password'].errors?.['required']) {
+          <small>Mật khẩu là bắt buộc</small>
+        }
+        @if (f['password'].errors?.['minlength']) {
+          <small>Mật khẩu ≥ 6 ký tự</small>
+        }
+      </div>
+    }
+  </div>
+
+  <button type="submit" [disabled]="addForm.invalid">
+    Đăng kí
+  </button>
 </form>
