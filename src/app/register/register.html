@@ -1,0 +1,20 @@
+<h2>Đăng kí</h2>
+
+<form [formGroup]="addForm" (ngSubmit)="submitForm()">
+    <div>
+        <label for="">Tên</label>
+        <input type="text" formControlName="username">
+    </div>
+
+    <div>
+        <label for="">Email</label>
+        <input type="email" formControlName="email">
+    </div>
+
+    <div>
+        <label for="">Mật khẩu</label>
+        <input type="password" formControlName="password">
+    </div>
+
+    <button type="submit">Đăng kí</button>
+</form>
