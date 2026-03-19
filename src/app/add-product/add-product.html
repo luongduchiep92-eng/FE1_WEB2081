@@ -37,6 +37,18 @@
   </div>
 
   <button type="submit" [disabled]="addForm.invalid">
-    Thêm
+    {{loading ? 'Đang gửi' : 'Thêm truyện'}}
   </button>
+
+  @if(loading) {
+    <p>Đang thêm sản phẩm...</p>
+  }
+
+  @if(success) {
+    <p style="color: green;"> {{success}} </p>
+  }
+
+  @if(error) {
+    <p style="color: red;"> {{error}} </p>
+  }
 </form>

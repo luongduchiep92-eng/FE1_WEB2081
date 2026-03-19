@@ -4,6 +4,13 @@
     <div>
         <label for="">Tên truyên</label>
         <input type="text" formControlName="title">
+        @if (f['title'].touched && f['title'].invalid) {
+            <div style="color: red;">
+                @if(f['title'].errors?.['require']){
+                    <small>Tên truyện không được để trống!</small>
+                }
+            </div>
+        }
     </div>
 
     <div>
@@ -16,5 +23,11 @@
         <input type="number" formControlName="views">
     </div>
 
-    <button type="submit">Thêm</button>
+    <button type="submit" [disabled]="loading"> {{ loading ? 'Đang gửi' : 'Thêm truyện'}} </button>
+
+    @if (success) {
+        <p style="color: green;">{{success}}</p>
+    } @if (error) {
+        <p style="color: red;">{{error}}</p>
+    }
 </form>
