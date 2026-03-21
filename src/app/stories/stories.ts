@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-stories',
@@ -6,55 +7,46 @@ import { Component } from '@angular/core';
   templateUrl: './stories.html',
   styleUrl: './stories.css',
 })
-export class Stories {
-  stories = [
-    {
-    title: "One Piece",
-    author: "Eiichiro Oda",
-    views: 100000,
-    year: 1997,
-    genre: "Adventure",
-    image: "https://thuviensach.vn/img/news/2024/05/larger/14728-dao-hai-tac-one-piece-1.webp?v=5406"
-  },
-  {
-    title: "Naruto",
-    author: "Masashi Kishimoto",
-    views: 90000,
-    year: 1999,
-    genre: "Action",
-    image: "https://upload.wikimedia.org/wikipedia/en/9/94/NarutoCoverTankobon1.jpg"
-  },
-  {
-    title: "Doraemon",
-    author: "Fujiko F. Fujio",
-    views: 70000,
-    year: 1969,
-    genre: "Comedy / Sci-fi",
-    image: "https://vi.wikipedia.org/wiki/Danh_s%C3%A1ch_t%E1%BA%ADp_truy%E1%BB%87n_Doraemon#/media/T%E1%BA%ADp_tin:Doraemon1.jpg"
-  },
-  {
-    title: "Dragon Ball",
-    author: "Akira Toriyama",
-    year: 1984,
-    genre: "Action",
-    views: 120000,
-    image: "https://dilib.vn/img/news/2024/04/larger/15107-sieu-ngoc-rong-dragon-ball-super-1.webp?v=1725"
-  },
-  {
-    title: "Attack On Titan",
-    author: "Hajime Isayama",
-    year: 2009,
-    genre: "Dark Fantasy",
-    views: 95000,
-    image: "https://www.pinterest.com/pin/6685099439749714/"
-  },
-  {
-    title: "Bleach",
-    author: "Tite Kubo",
-    year: 2001,
-    genre: "Supernatural",
-    views: 85000,
-    image: "https://upload.wikimedia.org/wikipedia/en/7/72/Bleachanime.png"
+export class Stories implements OnInit {
+  stories: any[] = [];
+
+  loading = false;
+  error = '';
+
+  constructor(private http: HttpClient) {}
+  
+  ngOnInit() {
+    this.getStories();
   }
-  ];
+
+  getStories() {
+    this.loading = true;
+    this.error = '';
+
+    this.http.get('http://localhost:3000/stories').subscribe({
+      next: (data: any) => {
+        this.loading = false;
+        this.stories = data;
+      },
+      error: () => {
+        this.loading = false;
+        this.error = 'Không thể tải dữ liệu';
+      },
+    });
+  }
+
+  deleteStory(id: number) {
+    const confirmDelete = confirm('Bạn có chắc muốn xóa không?');
+    if (!confirmDelete) return;
+
+    this.http.delete(`http://localhost:3000/stories/${id}`).subscribe({
+      next: () => {
+        this.stories = this.stories.filter((story) => story.id !== id);
+        alert('Xóa thành công');
+      },
+      error: () => {
+        alert('Xóa thất bại');
+      },
+    });
+  }
 }
